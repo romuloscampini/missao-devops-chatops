@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  mattermost:
+    image: mattermost/mattermost-preview
+    container_name: mattermost
+    networks: 
+      chatops.net:
+        ipv4_address: 172.19.0.2
+    ports:
+      - "8065:8065"
+    environment:
+      - MM_SERVICESETTINGS_ALLOWEDUNTRUSTEDINTERNALCONNECTIONS='localhost 127.0.0.1 0.0.0.0/0 172.19.0.0/16 192.168.0.0/16'
+  
+  bender:
+    image: rodrigogrohl/bender:0.3.0
+    container_name: bender
+    environment:
+      - EXPRESS_PORT=8086
+      - MATTERMOST_ENDPOINT=/bender/incoming
+      - MATTERMOST_TOKEN=<INSERIR-TOKEN>
+      - MATTERMOST_INCOME_URL=http://172.19.0.2:8065/hooks/<INSERIR ENDPOINT>
+      - HUBOT_LOG_LEVEL=debug
+    networks: 
+      chatops.net:
+        ipv4_address: 172.19.0.3
+    ports: 
+      - "8086:8086"
+
+networks:
+  chatops.net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/16
+

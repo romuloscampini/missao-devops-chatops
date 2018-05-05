@@ -6,7 +6,7 @@
 monitor = require "os-monitor"
 
 module.exports = (robot) ->
-    ENV_DELAY = process.env.MONITOR_DELAY ||= 30000
+    ENV_DELAY = process.env.MONITOR_DELAY ||= 90000
     CRITICAL_1 = process.env.MONITOR_CRITICAL_1 ||= 1.1
     CRITICAL_5 = process.env.MONITOR_CRITICAL_5 ||= 1.0
     CRITICAL_15 = process.env.MONITOR_CRITICAL_15 ||= 0.9

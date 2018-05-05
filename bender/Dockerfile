@@ -35,6 +35,9 @@ USER netdata
 WORKDIR /hubot
 ENV EXPRESS_PORT 8086
 
+# CONFIGURACAO Master vs Slaves
+ADD netdata-stream.slave.conf /etc/netdata/stream.conf
+
 # INSTALACAO HUBOT
 RUN yo hubot --owner="Rodrigo Rocha <rodrigogrohl@gmail.com>" --name="bender" --description="Chatops com Bender" --adapter=mattermost --defaults
 COPY package.json package.json

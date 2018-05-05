@@ -13,7 +13,7 @@ services:
       - MM_SERVICESETTINGS_ALLOWEDUNTRUSTEDINTERNALCONNECTIONS='localhost 127.0.0.1 0.0.0.0/0 172.19.0.0/16 192.168.0.0/16'
   
   bender:
-    image: rodrigogrohl/bender:0.4.0
+    image: rodrigogrohl/bender:1.0.0
     container_name: bender
     environment:
       - EXPRESS_PORT=8086
@@ -27,6 +27,15 @@ services:
     ports: 
       - "18086:19999"
       - "8086:8086"
+
+  netdata:
+    build: ./netdata-master
+    container_name: netdata-master
+    ports:
+      - "19999:19999"
+    networks: 
+      chatops.net:
+        ipv4_address: 172.19.0.4
 
 networks:
   chatops.net:

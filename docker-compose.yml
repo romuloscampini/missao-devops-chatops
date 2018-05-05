@@ -13,18 +13,19 @@ services:
       - MM_SERVICESETTINGS_ALLOWEDUNTRUSTEDINTERNALCONNECTIONS='localhost 127.0.0.1 0.0.0.0/0 172.19.0.0/16 192.168.0.0/16'
   
   bender:
-    image: rodrigogrohl/bender:0.3.0
+    image: rodrigogrohl/bender:0.4.0
     container_name: bender
     environment:
       - EXPRESS_PORT=8086
       - MATTERMOST_ENDPOINT=/bender/incoming
-      - MATTERMOST_TOKEN=<INSERIR-TOKEN>
-      - MATTERMOST_INCOME_URL=http://172.19.0.2:8065/hooks/<INSERIR ENDPOINT>
+      - MATTERMOST_TOKEN=md6p6rsf1by4ugtntww8wt6jqo
+      - MATTERMOST_INCOME_URL=http://172.19.0.2:8065/hooks/7crr5c8o9pyu5kmsoke4exrfiy
       - HUBOT_LOG_LEVEL=debug
     networks: 
       chatops.net:
         ipv4_address: 172.19.0.3
     ports: 
+      - "18086:19999"
       - "8086:8086"
 
 networks:

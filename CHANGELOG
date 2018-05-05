@@ -1,3 +1,6 @@
+# v.0.6.0 - Bem vindo Netdata
+-  Netdata instalado junto ao bender  
+
 # v.0.5.0 - Laboratório via Docker Compose
 -  Criado Docker Compose  
 -  Adicionado Service 'Mattermost'  

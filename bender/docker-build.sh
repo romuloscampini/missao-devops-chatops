@@ -2,7 +2,7 @@
 
 # COLOQUE AQUI SEU USUARIO DOCKERHUB
 dockerhub_user=rodrigogrohl
-image_version=0.3.0
+image_version=0.4.0
 image_name=bender
 
 docker build --no-cache \

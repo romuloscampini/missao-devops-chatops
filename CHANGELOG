@@ -1,3 +1,7 @@
+# v.0.4.0 - Bender com Suporte Docker
+-  Criado Dockerfile
+-  Novo script `docker-build.sh`
+   
 # v.0.3.0 - Upgrade no Script de Monitoracao
 -  Segunda versão do nosso script de monitoracao: `monitor.coffee`   
 -  Documentação no header dos scripts  

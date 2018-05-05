@@ -1,5 +1,9 @@
-# v.0.2.0 - Scritp de Monitoracao
-- Aqui temos a primeira versão do nosso script de monitoracao: `monitor.coffee`  
+# v.0.3.0 - Upgrade no Script de Monitoracao
+-  Segunda versão do nosso script de monitoracao: `monitor.coffee`   
+-  Documentação no header dos scripts  
+
+# v.0.2.0 - Script de Monitoracao
+- Primeira versão do nosso script de monitoracao: `monitor.coffee`  
   
 # v.0.1.0 - Kickstart / Plugins de Terceiros
 -  Fizemos o Kickstart do Mattermost 

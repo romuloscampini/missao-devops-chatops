@@ -1,6 +1,8 @@
 # Description:
 #   Queremos a motivacao do dia!
 #
+# Commands:
+#   bender motivacao - Receba uma super dica
 
 module.exports = (robot) ->
 

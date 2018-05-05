@@ -1,32 +1,69 @@
 # Description:
-#   Queremos a motivacao do dia!
+#   Monitoracao do Sistema Operacional
 #
+# Notes:
+#   Checa eventos e alarma em casos especificos
 monitor = require "os-monitor"
 
 module.exports = (robot) ->
+    ENV_DELAY = process.env.MONITOR_DELAY ||= 30000
+    CRITICAL_1 = process.env.MONITOR_CRITICAL_1 ||= 1.1
+    CRITICAL_5 = process.env.MONITOR_CRITICAL_5 ||= 1.0
+    CRITICAL_15 = process.env.MONITOR_CRITICAL_15 ||= 0.9
+    alarmed = false
 
-    monitor.start({ delay: 3000
-                , critical1: 1.7
-                , critical5: 1.9
-                , critical15: 1.2
-                })
+    monitor.start({
+        delay: ENV_DELAY,
+        freemem: 0.2,
+        critical1: CRITICAL_1,
+        critical5: CRITICAL_5,
+        critical15: CRITICAL_15
+    })
+    
+    # Referencia: https://www.npmjs.com/package/os-monitor#event-object
+    robot.logger.info "Monitor status: " + monitor.isRunning() + ". Delay: " + ENV_DELAY
 
     monitor.on 'monitor', (event) ->
-        robot.logger.info event.type + 'Estou monitorando!'
+        robot.logger.debug 'town-square', event.type + ', loadavg: ' + event.loadavg + ', freemem: ' + event.freemem
+        # robot.messageRoom 'town-square', event.type + ', loadavg: ' + event.loadavg + ', freemem: ' + event.freemem
+        if alarmed && event.loadavg[0] < CRITICAL_1 && event.loadavg[1] < CRITICAL_5 && event.loadavg[2] < CRITICAL_15
+            robot.logger.info "Machine was back into normal state"
+            alarmed = false
+            robot.messageRoom 'town-square',':innocent: Minha **CPU estabilizou**... Acho que vou sobreviver!'
 
+    # Load Average, conheca: https://en.wikipedia.org/wiki/Load_(computing)
     monitor.on 'loadavg1', (event) ->
-        logMessage = event.type + ': Sobrecarga no ultimo minuto!'
-        robot.logger.info logMessage
-        robot.messageRoom 'town-square', logMessage
-
-    monitor.on 'loadavg5', (event) ->
-        logMessage = event.type + ': Sobrecarga nos ultimos 5 minutos!'
-        robot.logger.info logMessage
-        robot.messageRoom 'town-square', logMessage
-
-    monitor.on 'freemem', (event) ->
-        logMessage = event.type + ': Pouca memória disponível!'
-        robot.logger.info logMessage
-        robot.messageRoom 'town-square', logMessage
+        if event.loadavg[1] > CRITICAL_5
+            return
+        load =  Number(event.loadavg[0] * 100).toFixed(0)
+        message = 'Hummm! **Sobrecarga média de ' + load + '% da CPU** no ultimo minuto.'
+        robot.logger.info message
+        alarmed = true
+        robot.messageRoom 'town-square',':suspect: ' + message
     
+    monitor.on 'loadavg5', (event) ->
+        if event.loadavg[2] > CRITICAL_15 || event.loadavg[0] < CRITICAL_1
+            return
+        load =  Number(event.loadavg[1] * 100).toFixed(0)
+        message = 'Overload bro! **Sobrecarga média de ' + load + '% da CPU** nos ultimos 5 minutos.'
+        robot.logger.info message
+        alarmed = true
+        robot.messageRoom 'town-square',':rage3: ' + message
 
+    monitor.on 'loadavg15', (event) ->
+        if event.loadavg[1] < CRITICAL_5
+            return
+        load =  Number(event.loadavg[2] * 100).toFixed(0)
+        message = 'Run to the Hills! **Sobrecarga média de ' + load + '% da CPU** nos ultimos 15 minutos.'
+        alarmed = true
+        robot.logger.info message 
+        robot.messageRoom 'town-square',':finnadie: ' + message
+ 
+    monitor.on 'freemem', (event) ->
+        percentage = Number((event.freemem / event.totalmem) * 100).toFixed(0)
+        freememGB = Number(event.freemem / 1024000000).toFixed(2)
+        totalmemGB = Number(event.totalmem / 1024000000).toFixed(2)
+        
+        message = ':rage1: Help-me Guys! Tenho apenas **' + percentage + '%** de **Memória Disponível** (' + freememGB + ' de ' + totalmemGB + ' GB)'
+        robot.messageRoom 'town-square', message
+    

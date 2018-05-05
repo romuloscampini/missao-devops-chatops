@@ -36,3 +36,4 @@ lib/
 *.class
 *.pyc
 .hubot_history
+package-lock.json

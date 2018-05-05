@@ -1,0 +1,7 @@
+# v.0.1.0 - Kickstart / Plugins de Terceiros
+1.  Fizemos o **Kickstart** do Mattermost 
+2.  Configuramos **Hookscripts**
+3.  **Geramos** nosso Robô via *yeoman*
+4.  Criamos o script `bender-startup.sh`
+5.  Instalamos dois plugins, conhecemos o `package.json`
+6.  Atualizamos o `external-scripts.json`

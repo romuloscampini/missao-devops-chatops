@@ -1,3 +1,9 @@
+# v.1.0.0 - Toolkit Mattermost + Bender + Netdata
+-  Primeira versão estável e funcional com as três ferramentas;
+-  Adicionado Netdata Master
+-  Configurada comunicação entre nós Slave > Master
+-  Integração Netdata > Mattermost  
+
 # v.0.6.0 - Bem vindo Netdata
 -  Netdata instalado junto ao bender  
 

@@ -1,3 +1,6 @@
+# v.1.1.0 - Jenkins no Ambiente
+-  Docker Compose agora com Jenkins e Pipelines
+
 # v.1.0.0 - Toolkit Mattermost + Bender + Netdata
 -  Primeira versão estável e funcional com as três ferramentas;
 -  Adicionado Netdata Master

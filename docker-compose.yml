@@ -21,6 +21,8 @@ services:
       - MATTERMOST_TOKEN=md6p6rsf1by4ugtntww8wt6jqo
       - MATTERMOST_INCOME_URL=http://172.19.0.2:8065/hooks/7crr5c8o9pyu5kmsoke4exrfiy
       - HUBOT_LOG_LEVEL=debug
+      - HUBOT_JENKINS_URL=http://172.19.0.5:8080/
+      - HUBOT_JENKINS_AUTH=jenkins:rodrigo123
     networks: 
       chatops.net:
         ipv4_address: 172.19.0.3
@@ -36,6 +38,17 @@ services:
     networks: 
       chatops.net:
         ipv4_address: 172.19.0.4
+
+  jenkins:
+    image: rodrigogrohl/missao-devops-jenkins:2.2.2
+    container_name: jenkins
+    volumes:
+      - $HOME/.ssh:/var/jenkins_home/.ssh/
+    networks: 
+      chatops.net:
+        ipv4_address: 172.19.0.5
+    ports:
+      - "8081:8080"
 
 networks:
   chatops.net:

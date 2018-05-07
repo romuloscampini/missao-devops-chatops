@@ -1,3 +1,8 @@
+# v.1.2.0 - GitLab, here we go!
+-  Novo Service 'gitlab'
+-  Docker Compose, Service 'bender:' agora lê arquivo .env  
+-  Adicionado README.md com passo a passo rápido para subir ambiente  
+
 # v.1.1.0 - Jenkins no Ambiente
 -  Docker Compose agora com Jenkins e Pipelines
 

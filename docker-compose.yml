@@ -15,14 +15,16 @@ services:
   bender:
     image: rodrigogrohl/bender:1.0.0
     container_name: bender
-    environment:
-      - EXPRESS_PORT=8086
-      - MATTERMOST_ENDPOINT=/bender/incoming
-      - MATTERMOST_TOKEN=md6p6rsf1by4ugtntww8wt6jqo
-      - MATTERMOST_INCOME_URL=http://172.19.0.2:8065/hooks/7crr5c8o9pyu5kmsoke4exrfiy
-      - HUBOT_LOG_LEVEL=debug
-      - HUBOT_JENKINS_URL=http://172.19.0.5:8080/
-      - HUBOT_JENKINS_AUTH=jenkins:rodrigo123
+    env_file:
+      - .env
+    #environment:
+    #  - EXPRESS_PORT=${EXPRESS_PORT}
+    #  - MATTERMOST_ENDPOINT=${MATTERMOST_ENDPOINT}
+    #  - MATTERMOST_TOKEN=${MATTERMOST_TOKEN}
+    #  - MATTERMOST_INCOME_URL=${MATTERMOST_INCOME_URL}
+    #  - HUBOT_LOG_LEVEL=${HUBOT_LOG_LEVEL}
+    #  - HUBOT_JENKINS_URL=${HUBOT_JENKINS_URL}
+    #  - HUBOT_JENKINS_AUTH=${HUBOT_JENKINS_AUTH}
     networks: 
       chatops.net:
         ipv4_address: 172.19.0.3
@@ -33,6 +35,8 @@ services:
   netdata:
     build: ./netdata-master
     container_name: netdata-master
+    environment:
+      - MATTERMOST_INCOME_URL=${MATTERMOST_INCOME_URL}
     ports:
       - "19999:19999"
     networks: 
@@ -49,6 +53,25 @@ services:
         ipv4_address: 172.19.0.5
     ports:
       - "8081:8080"
+
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: 'localhost'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost:9090'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+    ports:
+      - '9090:9090'
+      - '2224:22'
+    #volumes:
+    #  - '/srv/gitlab/config:/etc/gitlab'
+    #  - '/srv/gitlab/logs:/var/log/gitlab'
+    #  - '/srv/gitlab/data:/var/opt/gitlab'
+    networks: 
+      chatops.net:
+        ipv4_address: 172.19.0.6
 
 networks:
   chatops.net:

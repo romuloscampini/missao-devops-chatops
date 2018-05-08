@@ -17,14 +17,6 @@ services:
     container_name: bender
     env_file:
       - .env
-    #environment:
-    #  - EXPRESS_PORT=${EXPRESS_PORT}
-    #  - MATTERMOST_ENDPOINT=${MATTERMOST_ENDPOINT}
-    #  - MATTERMOST_TOKEN=${MATTERMOST_TOKEN}
-    #  - MATTERMOST_INCOME_URL=${MATTERMOST_INCOME_URL}
-    #  - HUBOT_LOG_LEVEL=${HUBOT_LOG_LEVEL}
-    #  - HUBOT_JENKINS_URL=${HUBOT_JENKINS_URL}
-    #  - HUBOT_JENKINS_AUTH=${HUBOT_JENKINS_AUTH}
     networks: 
       chatops.net:
         ipv4_address: 172.19.0.3
@@ -56,6 +48,7 @@ services:
 
   gitlab:
     image: 'gitlab/gitlab-ce:latest'
+    container_name: gitlab
     restart: always
     hostname: 'localhost'
     environment:
